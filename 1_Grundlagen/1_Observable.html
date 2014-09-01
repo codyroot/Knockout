@@ -5,9 +5,25 @@
     <title>Knockout Observable</title>
 </head>
 <body>
+<h1>Knockoutjs 2 Way Data Binding</h1>
+<h2 data-bind="text: value"></h2>
+<input type="text" data-bind="value: value"/>
+
 
 <script type="text/javascript" src="../lib/knockout.js"></script>
 <script type="text/javascript">
+
+    /**
+     * ViewModel for the Bindings
+     *
+     * @type {{value: KnockoutObservable<String>, id: KnockoutObservable<Number>}}
+     */
+    var viewModel = {
+        value: ko.observable("Blubb"),
+        id: ko.observable(1)
+    };
+
+    ko.applyBindings(viewModel);
 
 </script>
 
