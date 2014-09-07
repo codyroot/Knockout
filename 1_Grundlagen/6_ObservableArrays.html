@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Observable Arrays</title>
+    <style type="text/css">
+        li {
+            margin: 30px 0;
+            background: #ebebeb;
+            padding: 10px;
+            border: 1px solid #cdcdcd;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Observable Arrays</h1>
+
+<h2><span data-bind="text: collection().length"></span> Cars</h2>
+
+<input data-bind="value: newBrand">
+<input data-bind="value: newColor">
+
+<button data-bind="click: addItem">Add Car</button>
+<button data-bind="click: removeAllCars">Remove All</button>
+<ul data-bind="foreach: collection">
+    <li>
+        <strong data-bind="text: brand"></strong>
+        -
+        <span data-bind="text: color"></span>
+        <button data-bind="click: $parent.removeItem">X</button>
+    </li>
+</ul>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    /**
+     * Single Item
+     *
+     * @param brand
+     * @param color
+     * @constructor
+     */
+    var Car = function (brand, color) {
+        this.brand = brand;
+        this.color = color;
+    };
+
+    var CarCollection = (function () {
+
+        /**
+         * Closuring that to this from the constructor
+         */
+        var that;
+        /**
+         * CarCollection
+         *
+         * @constructor
+         */
+        var CarCollection = function () {
+            that = this;
+            that.collection = ko.observableArray([]);
+            that.newBrand = "New Brand";
+            that.newColor = "New Color";
+        };
+
+        /**
+         * Add a Car to the Collection
+         *
+         * @param brand
+         * @param color
+         */
+        CarCollection.prototype.add = function (brand, color) {
+            that.collection.push(new Car(brand, color));
+        };
+
+        /**
+         * Add a Car to the Collection
+         */
+        CarCollection.prototype.addItem = function () {
+            that.add(that.newBrand, that.newColor);
+        };
+
+        /**
+         * Remove All items
+         * $parent Access needed
+         */
+        CarCollection.prototype.removeAllCars = function () {
+            that.collection.removeAll();
+        };
+
+        /**
+         * Remove a Single item
+         * @param carModel
+         */
+        CarCollection.prototype.removeItem = function (carModel) {
+            that.collection.remove(carModel);
+        };
+
+        return CarCollection;
+    }());
+
+    var cars = new CarCollection();
+
+    ko.applyBindings(cars);
+
+    cars.add("BMW 320i", "silver");
+    cars.add("BMW 420d xDrive", "Estorilblue");
+    cars.add("BMW X1 18d xDrive", "Marakesh");
+
+</script>
+
+</body>
+</html>

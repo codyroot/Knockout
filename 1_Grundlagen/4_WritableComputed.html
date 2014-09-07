@@ -7,9 +7,9 @@
 <body>
 
 <h1>Writable Computed</h1>
-Quantity: <input type="text" data-bind="value: quantity">
-UnitPrice: <input type="text" data-bind="value: unitPrice">
-Price: <input type="text" data-bind="value: calc, valueUpdate: 'afterkeydown'">
+Quantity: <input type="text" data-bind="value: quantity, valueUpdate: 'afterkeydown'">
+UnitPrice: <input type="text" data-bind="value: unitPrice, valueUpdate: 'afterkeydown'">
+EndPrice: <input type="text" data-bind="value: calc, valueUpdate: 'afterkeydown'">
 
 
 <script type="text/javascript" src="../lib/knockout.js"></script>
@@ -25,6 +25,7 @@ Price: <input type="text" data-bind="value: calc, valueUpdate: 'afterkeydown'">
     };
 
     /**
+     * Writes back the Value to unitPrice, if the Price is changing
      *
      * @type {KnockoutComputed<T>}
      */
