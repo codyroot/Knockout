@@ -5,6 +5,7 @@
     <title>Knockout Observable</title>
 </head>
 <body>
+
 <h1>Multiple ViewModels</h1>
 
 <div id="german">
@@ -15,6 +16,7 @@
 <div id="english">
     <h2 data-bind="text: txt_en"></h2>
     <input type="text" data-bind="value: txt_en"/>
+
     <h3 data-bind="text: txt_de"></h3>
 </div>
 
@@ -22,7 +24,7 @@
 <script type="text/javascript">
 
     var de = {
-        txt_de: ko.observable("Das ist mein Text" )
+        txt_de: ko.observable("Das ist mein Text")
     };
 
     var en = Object.create(de, {
