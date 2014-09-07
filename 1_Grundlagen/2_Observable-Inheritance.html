@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Observable</title>
+</head>
+<body>
+<h1>Multiple ViewModels</h1>
+
+<div id="german">
+    <h2 data-bind="text: txt_de"></h2>
+    <input type="text" data-bind="value: txt_de"/>
+</div>
+
+<div id="english">
+    <h2 data-bind="text: txt_en"></h2>
+    <input type="text" data-bind="value: txt_en"/>
+    <h3 data-bind="text: txt_de"></h3>
+</div>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var de = {
+        txt_de: ko.observable("Das ist mein Text" )
+    };
+
+    var en = Object.create(de, {
+        txt_en: {
+            value: ko.observable("This is my text")
+        }
+    });
+
+    console.dir(en);
+
+    ko.applyBindings(en, document.querySelector("#english"));
+    ko.applyBindings(de, document.querySelector("#german"));
+
+</script>
+
+</body>
+</html>

@@ -4,7 +4,7 @@ var myFunc = (function yo() {
     var c = {
         a: 1,
         b: 2
-    }
+    };
     var d = function () {
     };
 
@@ -71,6 +71,12 @@ Object.defineProperties(Klass.prototype, {
 
 Object.defineProperty(Klass.prototype, "blubb", {
     value: "asd"
+});
+
+Object.defineProperty(Klass.prototype, "yope", {
+    value: function(){
+        return "YOPE";
+    }
 });
 
 var klass = new Klass();
