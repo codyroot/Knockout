@@ -2,38 +2,35 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Knockout Observable</title>
+    <title>Knockout Computed</title>
 </head>
 <body>
 
-<h1>Knockoutjs 2 Way Data Binding</h1>
+<h1>Computed</h1>
+Qunatity: <input type="text" data-bind="value: quantity">
 
-<h2>
-    <span data-bind="text: txt.de"></span>
-    ||
-    <span data-bind="text: txt.en"></span>
-</h2>
-<hr/>
-<input type="text" data-bind="value: value"/>
-
-<h3 data-bind="text: value"></h3>
+<h2 data-bind="text: calc"></h2>
 
 <script type="text/javascript" src="../lib/knockout.js"></script>
 <script type="text/javascript">
 
     /**
-     * ViewModel for the Bindings
      *
-     * @type {{value: KnockoutObservable<String>, id: KnockoutObservable<Number>, txt: {en: string, de: string}}}
+     * @type {{mwst: number, price: number, quantity: KnockoutObservable<Number>}}
      */
     var viewModel = {
-        value: ko.observable("Blubb"),
-        id: ko.observable(1),
-        txt: {
-            en: "Hello World",
-            de: "Hallo Welt"
-        }
+        mwst: 1,
+        price: 10,
+        quantity: ko.observable(2)
     };
+
+    /**
+     *
+     * @type {KnockoutComputed<Number>}
+     */
+    viewModel.calc = ko.computed(function () {
+        return this.price * this.quantity() * this.mwst;
+    }, viewModel);
 
     ko.applyBindings(viewModel);
 

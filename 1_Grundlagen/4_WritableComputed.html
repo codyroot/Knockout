@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Writable Computed</title>
+</head>
+<body>
+
+<h1>Writable Computed</h1>
+Quantity: <input type="text" data-bind="value: quantity">
+UnitPrice: <input type="text" data-bind="value: unitPrice">
+Price: <input type="text" data-bind="value: calc, valueUpdate: 'afterkeydown'">
+
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    /**
+     *
+     * @type {{unitPrice: number, price: number, quantity: KnockoutObservable<Number>}}
+     */
+    var viewModel = {
+        unitPrice: ko.observable(5),
+        quantity: ko.observable(2)
+    };
+
+    /**
+     *
+     * @type {KnockoutComputed<T>}
+     */
+    viewModel.calc = ko.computed({
+        read: function () {
+            return this.unitPrice() * this.quantity() + "€";
+        },
+        write: function (value) {
+            var val = parseInt(value, 10);
+            this.quantity(val / this.unitPrice());
+        },
+        owner: viewModel
+    });
+
+    ko.applyBindings(viewModel);
+
+</script>
+
+</body>
+</html>
