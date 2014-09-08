@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Built in Bindings</title>
+</head>
+<body>
+<h1>Knockout Built in Bindings</h1>
+
+<h2 data-bind="text: text"></h2>
+<h2 data-bind="html: html"></h2>
+
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var viewModel = {
+        text: ko.observable("Only Text"),
+        html: ko.observable("<em>Its HTML!</em>")
+    };
+
+    ko.applyBindings(viewModel);
+
+</script>
+
+</body>
+</html>
