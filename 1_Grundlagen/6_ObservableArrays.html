@@ -47,59 +47,54 @@
         this.color = color;
     };
 
-    var CarCollection = (function () {
+    /**
+     * CarCollection
+     *
+     * @constructor
+     */
+    var CarCollection = function () {
+        this.collection = ko.observableArray([]);
+        this.newBrand = "New Brand";
+        this.newColor = "New Color";
 
         /**
-         * Closuring that to this from the constructor
+         * Bind the prototype to this/
          */
-        var that;
-        /**
-         * CarCollection
-         *
-         * @constructor
-         */
-        var CarCollection = function () {
-            that = this;
-            that.collection = ko.observableArray([]);
-            that.newBrand = "New Brand";
-            that.newColor = "New Color";
-        };
+        this.removeItem = this.removeItem.bind(this);
+    };
 
-        /**
-         * Add a Car to the Collection
-         *
-         * @param brand
-         * @param color
-         */
-        CarCollection.prototype.add = function (brand, color) {
-            that.collection.push(new Car(brand, color));
-        };
+    /**
+     * Add a Car to the Collection
+     *
+     * @param brand
+     * @param color
+     */
+    CarCollection.prototype.add = function (brand, color) {
+        this.collection.push(new Car(brand, color));
+    };
 
-        /**
-         * Add a Car to the Collection
-         */
-        CarCollection.prototype.addItem = function () {
-            that.add(that.newBrand, that.newColor);
-        };
+    /**
+     * Add a Car to the Collection
+     */
+    CarCollection.prototype.addItem = function () {
+        this.add(this.newBrand, this.newColor);
+    };
 
-        /**
-         * Remove All items
-         * $parent Access needed
-         */
-        CarCollection.prototype.removeAllCars = function () {
-            that.collection.removeAll();
-        };
+    /**
+     * Remove All items
+     * $parent Access needed
+     */
+    CarCollection.prototype.removeAllCars = function () {
+        this.collection.removeAll();
+    };
 
-        /**
-         * Remove a Single item
-         * @param carModel
-         */
-        CarCollection.prototype.removeItem = function (carModel) {
-            that.collection.remove(carModel);
-        };
-
-        return CarCollection;
-    }());
+    /**
+     * Remove a Single item
+     * @param carModel
+     */
+    CarCollection.prototype.removeItem = function (carModel) {
+        this.collection.remove(carModel);
+    };
 
     var cars = new CarCollection();
 
