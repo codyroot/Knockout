@@ -20,12 +20,11 @@ Old Value (Only the first, dispose):<span data-bind="text: old"></span>
 
     /**
      *
-     * @type {{value: KnockoutObservable<T>, old: KnockoutObservable<T>, array: KnockoutObservableArray<T>}}
+     * @type {{value: KnockoutObservable<T>, old: KnockoutObservable<T>}}
      */
     var viewModel = {
         value: ko.observable("Blubb"),
-        old: ko.observable(""),
-        array: ko.observableArray([])
+        old: ko.observable("")
     };
 
     viewModel.value.subscribe(function (changes) {
@@ -36,7 +35,7 @@ Old Value (Only the first, dispose):<span data-bind="text: old"></span>
      *
      * @type {KnockoutSubscription}
      */
-    var sub = viewModel.value.subscribe(function (oldValue, a) {
+    var sub = viewModel.value.subscribe(function (oldValue) {
         viewModel.old(oldValue);
 
         // Stop Watching, Compare with $.ONCE
