@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Built in Bindings</title>
+</head>
+<body>
+<h1>Knockout Built in Bindings - Click and Event</h1>
+
+<div>
+    <h2>Click</h2>
+    click: simpleClick"
+    <button data-bind="click: simpleClick">Simple</button>
+    <br/>
+    click: function(data, event) { simpleClick('param1', 'param2', data, event) }
+    <button data-bind="click: function(data, event) { simpleClick('param1', 'param2', data, event) }">Extendend 1
+    </button>
+    <br/>
+    click: simpleClick.bind($data, 'param1', 'param2')
+    <button data-bind="click: simpleClick.bind($data, 'p1', 'p2')">Extendend 2</button>
+</div>
+
+<div>
+    <h2>Event</h2>
+    <div data-bind="event: {mouseover: hideAndSeek}">Show Mouseover</div>
+    <div data-bind="visible: isVisible"> YO!</div>
+</div>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var viewModel = {
+        simpleClick: function (viewModel, event) {
+            console.dir(viewModel);
+            console.dir(event);
+        },
+        hideAndSeek: function () {
+            // Toggle
+            this.isVisible(!this.isVisible());
+        },
+        isVisible: ko.observable(false)
+    };
+
+    ko.applyBindings(viewModel);
+
+</script>
+
+</body>
+</html>

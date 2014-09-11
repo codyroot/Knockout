@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Built in Bindings</title>
+    <style type="text/css">
+        .headline {
+            color: palegreen;
+        }
+    </style>
+</head>
+<body>
+<h1>Knockout Built in Bindings - CSS and Style</h1>
+
+<i>Style</i>
+<div data-bind="style: {color: number() < 10 ? 'red' : 'blue'}">
+    Number
+</div>
+
+<i>CSS (Set a Class)</i>
+<div data-bind="css: {headline: cssClass}">
+    CSS
+</div>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var viewModel = {
+        number: ko.observable(2),
+        cssClass: ko.observable(true)
+    };
+
+    ko.applyBindings(viewModel);
+
+</script>
+
+</body>
+</html>

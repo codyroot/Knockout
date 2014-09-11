@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Built in Bindings</title>
+</head>
+<body>
+<h1>Knockout Built in Bindings - Select Lists</h1>
+
+<div>
+    <select data-bind="options: array, value: selectedItem, optionsText: 'name', optionsValue: 'key'"></select>
+    <i data-bind="text: selectedItem"></i>
+</div>
+<br/><br/>
+
+<div>
+    <select multiple="multiple" data-bind="options: array, selectedOptions: selectedLists , optionsText: 'name', optionsValue: 'key'"></select>
+    <i data-bind="text: selectedLists"></i>
+</div>
+
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var viewModel = {
+        selectedItem: ko.observable(),
+        array: [
+            {name: 1, key: "Erster"},
+            {name: 2, key: "Zweiter"},
+            {name: 3, key: "Dritter"}
+        ],
+        selectedLists: ko.observableArray([])
+    };
+
+    ko.applyBindings(viewModel);
+
+</script>
+
+</body>
+</html>

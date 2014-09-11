@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Built in Bindings</title>
+    <style type="text/css">
+        div {
+            margin: 20px 0;
+        }
+
+        span {
+            display: inline-block;
+            width: 200px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<h1>Knockout Built in Bindings - Checkboxes and Radiobuttons</h1>
+
+<div>
+    <span>Checkbox (checked):</span>
+    <input type="checkbox" data-bind="checked: isChecked"/>
+</div>
+
+<div>
+    <span>Radiobutton (checked):</span>
+    <i data-bind="text: selectedRadio"></i>
+    <input type="radio" data-bind="checked: selectedRadio" value="Erster"/>
+    <input type="radio" data-bind="checked: selectedRadio" value="Zweiter"/>
+    <input type="radio" data-bind="checked: selectedRadio" value="Dritter"/>
+</div>
+
+Foreach Loop
+<div data-bind="foreach: array ">
+    <input type="radio" data-bind="checked: $parent.selectedRadio, value: key"/>
+    <i data-bind="text: name"></i>
+</div>
+
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var viewModel = {
+        isChecked: ko.observable(true),
+        selectedRadio: ko.observable(),
+        array: [
+            {name: 1, key: "Erster"},
+            {name: 2, key: "Zweiter"},
+            {name: 3, key: "Dritter"}
+        ]
+    };
+
+    ko.applyBindings(viewModel);
+
+</script>
+
+</body>
+</html>
