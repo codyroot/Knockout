@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Observable</title>
+</head>
+<body>
+<h1>Knockoutjs 2 Way Data Binding</h1>
+
+<div data-bind="template: {name: 'myTemplate', data: de}">
+    Das wird ersetzt!
+</div>
+
+<div data-bind="template: {name: 'myTemplate', data: en}">
+    Das wird ersetzt!
+</div>
+
+<div id="myTemplate" style="display: none">
+
+    <section>
+        <h1 data-bind="text: name">asd</h1>
+
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A culpa eius ex exercitationem, harum illo ipsam,
+            laudantium libero magnam nihil quaerat quisquam, sint totam! Animi eveniet ipsum pariatur soluta
+            voluptas.
+        </p>
+    </section>
+
+</div>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var viewModel = {
+        de: {
+            name: "Überschrift"
+        },
+        en: {
+            name: "Headline"
+        }
+    };
+
+    ko.applyBindings(viewModel);
+</script>
+
+
+</body>
+</html>
