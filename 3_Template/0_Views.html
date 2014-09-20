@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Template</title>
+</head>
+<body>
+<h1>Knockoutjs 2 Way Data Binding</h1>
+
+<button data-bind="click: viewChanger">Change View</button>
+
+<div data-bind="template: {name: view}">
+    Das wird ersetzt!
+</div>
+
+<script type="text/html" id="myTemplate">
+    <h1>
+         Blubb
+    </h1>
+</script>
+
+<script type="text/html" id="anotherTemplate">
+    <h1>
+        Stark!
+    </h1>
+</script>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var viewModel = {
+        view: ko.observable("myTemplate"),
+        viewChanger: function(){
+            this.view("anotherTemplate")
+        }
+    };
+
+    ko.applyBindings(viewModel);
+</script>
+
+
+</body>
+</html>

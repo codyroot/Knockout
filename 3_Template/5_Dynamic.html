@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Template</title>
+</head>
+<body>
+<h1>Knockoutjs Dynamically Change Templates</h1>
+
+<h2>Dynamic Templates with Control Flow</h2>
+<button data-bind="click: handleTooltip">Show</button>
+<button data-bind="click: toggleTooltip">Toogle</button>
+<div data-bind="if: showTooltip">
+    Ich bin für 2 Sekunden sichtbar!
+</div>
+
+<hr/>
+
+<h2>Dynamic Templates Swapping</h2>
+<button data-bind="click: viewChanger">View-1</button>
+<button data-bind="click: viewChanger">View-2</button>
+
+<div data-bind="template: {name: activeTemplate}"></div>
+
+<script type="text/html" id="View-1">
+    <h1 style="color: blue">View 1 in action</h1>
+</script>
+
+<script type="text/html" id="View-2">
+    <h1 style="color: red">View 2 in action</h1>
+</script>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var viewModel = {
+        showTooltip: ko.observable(false),
+        handleTooltip: function () {
+            this.showTooltip(true);
+
+            var time = setTimeout(function () {
+                this.showTooltip(false);
+                clearTimeout(time);
+            }.bind(this), 2000);
+        },
+        toggleTooltip: function () {
+            this.showTooltip(!this.showTooltip());
+        },
+        activeTemplate: ko.observable("View-1"),
+        viewChanger: function (viewModel, evt) {
+            console.dir(evt.target.innerText)
+            this.activeTemplate(evt.target.innerText);
+        }
+    };
+
+    ko.applyBindings(viewModel);
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Template</title>
+</head>
+<body>
+<h1>Knockoutjs Template Parameters</h1>
+Show: <input type="checkbox" data-bind="checked: isChecked"/>
+
+<div data-bind="template: {
+                    if: isChecked,
+                    afterAdd: afterAdd,
+                    afterRender: afterRender,
+                    beforeRemove: beforeRemove
+                }">
+
+    <h1>YO</h1>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dignissimos doloribus earum hic laudantium
+        natus perferendis quos repudiandae suscipit, voluptates! At dolorum minima mollitia necessitatibus? Autem cum
+        facere quis sapiente.</p>
+
+</div>
+
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var viewModel = {
+        isChecked: ko.observable(false),
+        afterAdd: function () {
+            console.log("afterAdd Callback")
+        },
+        afterRender: function () {
+            console.log("afterRender Callback")
+        },
+        beforeRemove: function () {
+            console.log("beforeRemove Callback")
+        }
+    };
+
+    ko.applyBindings(viewModel);
+</script>
+
+
+</body>
+</html>

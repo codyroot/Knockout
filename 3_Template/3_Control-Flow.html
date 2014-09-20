@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Template</title>
+</head>
+<body>
+<h1>Knockoutjs Control Flow</h1>
+
+<ul data-bind="template: {name: 'myTemplate', foreach: listItem}">
+    <li>Das wird ersetzt!</li>
+</ul>
+
+
+<script id="myTemplate" type="text/html">
+    <li>
+        <span data-bind="text: name"></span>
+        -
+
+        <em data-bind="if: id() % 2 === 0;">Gerade</em>
+    </li>
+
+</script>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    // Context: from listItem foreach Binding the getId Method must be called with $parent
+    // It goes form lisItem Object one step higher to getId
+    var viewModel = {
+        id: 0,
+        listItem: ko.observableArray([
+            {
+                name: "Bud",
+                id: function () {
+                    return viewModel.id++;
+                }
+            },
+            {
+                name: "Terry",
+                id: function () {
+                    return viewModel.id++;
+                }
+            },
+            {
+                name: "Luke",
+                id: function () {
+                    return viewModel.id++;
+                }
+            },
+            {
+                name: "John",
+                id: function () {
+                    return viewModel.id++;
+                }
+            },
+            {
+                name: "J.D.",
+                id: function () {
+                    return viewModel.id++;
+                }
+            }
+        ])
+    };
+
+    ko.applyBindings(viewModel);
+</script>
+
+
+</body>
+</html>
