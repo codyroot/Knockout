@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Custom Bindings</title>
+</head>
+<body>
+<h1>Knockoutjs 2 Binding Handler</h1>
+
+<div data-bind="fadeOut: opacity, time: 100, steps: 0.05">
+    Blubb Blubb Blubb ...
+</div>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var viewModel = {
+        opacity: ko.observable(1)
+    }, ani;
+
+    ko.bindingHandlers.fadeOut = {
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+
+            /**
+             * allBindingsAccessor returns the other bindings on the element
+             */
+            var
+                display = valueAccessor(),
+                el = element,
+                time = allBindingsAccessor().time || 25,
+                steps = allBindingsAccessor().steps || 0.05,
+                animate = (function () {
+
+                    ani = setInterval(function () {
+
+                        display(display() - steps);
+                        el.style.opacity = display();
+
+                    }, time);
+
+                }());
+
+            console.dir(bindingContext);
+        },
+        update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+
+            var display = valueAccessor();
+
+            if (display() <= 0) {
+                clearInterval(ani);
+            }
+
+            console.log(display());
+        }
+    };
+
+    ko.applyBindings(viewModel);
+
+</script>
+
+
+</body>
+</html>
