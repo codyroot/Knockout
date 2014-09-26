@@ -15,16 +15,16 @@
 </form>
 
 <ul data-bind="foreach: people">
-    <li data-bind="click: $parent.removeItem">
+    <li data-bind="click: getName">
         <span data-bind="text: name"></span>
         <span data-bind="text: job"></span>
         <span data-bind="text: age"></span>
+        <strong data-bind="click: $parent.removeItem">X</strong>
     </li>
 </ul>
 
 <script type="text/javascript" src="../lib/knockout.js"></script>
 <script type="text/javascript">
-
     /**
      *
      * @param name
@@ -36,6 +36,13 @@
         this.name = ko.observable(name || "Name");
         this.job = ko.observable(job || "Job");
         this.age = ko.observable(age || "Age");
+
+        // Set Bindings
+        this.getName = this.getName.bind(this);
+    };
+
+    Person.prototype.getName = function () {
+        console.log(this.name());
     };
 
     /**
@@ -45,11 +52,9 @@
     var People = function () {
         this.people = ko.observableArray([]);
 
-        this.newPerson = {
-            name: ko.observable("Name"),
-            job: ko.observable("Job"),
-            age: ko.observable(0)
-        };
+        this.newPerson = new Person;
+
+        console.log(this.newPerson);
 
         // Bind this to the method
         this.addItem = this.addItem.bind(this);
@@ -77,20 +82,16 @@
     xhr.open("get", "data.json", true);
 
     xhr.onreadystatechange = function () {
-
         if (xhr.readyState === 4) {
             var json = JSON.parse(xhr.responseText);
 
             json.people.forEach(function (value, index, array) {
                 vm.people.push(new Person(value.name, value.job, value.age));
             });
-
         }
-
     };
 
     xhr.send();
-
     ko.applyBindings(vm);
 
 </script>
