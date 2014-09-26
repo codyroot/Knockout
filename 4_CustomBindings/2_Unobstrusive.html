@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Unobstrusive JavaScript</title>
+    <style>
+        .red {
+            color: tomato;
+        }
+    </style>
+</head>
+<body>
+<h1>Knockoutjs 2 Unobstrusive JavaScript</h1>
+
+<section id="unobstrusive"></section>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    /**
+     *
+     * @constructor
+     */
+    var ViewModel = function () {
+        this.fromJS = ko.observable("This comes directly from JS");
+        this.cssClass = ko.observable("")
+    };
+
+    /**
+     *
+     * @method
+     */
+    ViewModel.prototype.myFunc = function () {
+        this.fromJS("This is changed by a click");
+        this.cssClass("red");
+    };
+
+    var vm = new ViewModel();
+
+    /**
+     * Get the Element
+     * @type {HTMLElement}
+     */
+    var el = document.querySelector("#unobstrusive");
+
+    /**
+     * Set the data-bind Attribute with the Knockout Bindings
+     * @type {string}
+     */
+    el.dataset.bind = "text: fromJS, css: cssClass";
+
+    /**
+     * Register the specific Event
+     */
+    el.addEventListener("click", function (evt) {
+
+        /**
+         * evt.target or this
+         */
+        vm.myFunc(ko.dataFor(evt.target));
+
+        /**
+         * Returns the viewModel
+         */
+        console.dir(ko.dataFor(this));
+
+        /**
+         * Returns the Context
+         */
+        console.dir(ko.contextFor(this));
+
+    }, false);
+
+    ko.applyBindings(vm);
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Ajax</title>
+</head>
+<body>
+<h1>Knockoutjs Ajax</h1>
+
+<form action="">
+    <input type="text" data-bind="value: newPerson.name"/>
+    <input type="text" data-bind="value: newPerson.job"/>
+    <input type="text" data-bind="value: newPerson.age"/>
+    <button data-bind="click: addItem">Add new</button>
+</form>
+
+<ul data-bind="foreach: people">
+    <li data-bind="click: $parent.removeItem">
+        <span data-bind="text: name"></span>
+        <span data-bind="text: job"></span>
+        <span data-bind="text: age"></span>
+    </li>
+</ul>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    /**
+     *
+     * @param name
+     * @param job
+     * @param age
+     * @constructor
+     */
+    var Person = function (name, job, age) {
+        this.name = ko.observable(name || "Name");
+        this.job = ko.observable(job || "Job");
+        this.age = ko.observable(age || "Age");
+    };
+
+    /**
+     *
+     * @constructor
+     */
+    var People = function () {
+        this.people = ko.observableArray([]);
+
+        this.newPerson = {
+            name: ko.observable("Name"),
+            job: ko.observable("Job"),
+            age: ko.observable(0)
+        };
+
+        // Bind this to the method
+        this.addItem = this.addItem.bind(this);
+        this.removeItem = this.removeItem.bind(this);
+    };
+
+    /**
+     * Add a new Person to the Collection
+     */
+    People.prototype.addItem = function () {
+        this.people.push(new Person(this.newPerson.name(), this.newPerson.job(), this.newPerson.age()));
+    };
+
+    /**
+     * Remove a Person from the Collection
+     * @param vm
+     */
+    People.prototype.removeItem = function (vm) {
+        this.people.remove(vm);
+    };
+
+    var vm = new People();
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("get", "data.json", true);
+
+    xhr.onreadystatechange = function () {
+
+        if (xhr.readyState === 4) {
+            var json = JSON.parse(xhr.responseText);
+
+            json.people.forEach(function (value, index, array) {
+                vm.people.push(new Person(value.name, value.job, value.age));
+            });
+
+        }
+
+    };
+
+    xhr.send();
+
+    ko.applyBindings(vm);
+
+</script>
+
+</body>
+</html>

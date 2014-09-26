@@ -1,0 +1,19 @@
+{
+    "people": [
+        {
+            "name": "Bud Spencer",
+            "job": "Hauer",
+            "age": "65"
+        },
+        {
+            "name": "Urkan",
+            "job": "Hero",
+            "age": "20"
+        },
+        {
+            "name": "jobey",
+            "job": "Driver",
+            "age": "35"
+        }
+    ]
+}
