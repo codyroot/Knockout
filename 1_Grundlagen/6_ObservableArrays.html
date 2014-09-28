@@ -18,8 +18,8 @@
 
 <h2><span data-bind="text: collection().length"></span> Cars</h2>
 
-<input data-bind="value: newBrand">
-<input data-bind="value: newColor">
+<input data-bind="value: newCar.brand">
+<input data-bind="value: newCar.color">
 
 <button data-bind="click: addItem">Add Car</button>
 <button data-bind="click: removeAllCars">Remove All</button>
@@ -43,8 +43,8 @@
      * @constructor
      */
     var Car = function (brand, color) {
-        this.brand = brand;
-        this.color = color;
+        this.brand = ko.observable(brand || "Marke");
+        this.color = ko.observable(color || "Farbe");
     };
 
     /**
@@ -54,8 +54,7 @@
      */
     var CarCollection = function () {
         this.collection = ko.observableArray([]);
-        this.newBrand = "New Brand";
-        this.newColor = "New Color";
+        this.newCar = new Car;
 
         /**
          * Bind the prototype to this/
@@ -77,7 +76,7 @@
      * Add a Car to the Collection
      */
     CarCollection.prototype.addItem = function () {
-        this.add(this.newBrand, this.newColor);
+        this.add(this.newCar.brand(), this.newCar.color());
     };
 
     /**
