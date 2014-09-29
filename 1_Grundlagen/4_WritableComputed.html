@@ -37,7 +37,17 @@ EndPrice: <input type="text" data-bind="value: calc, valueUpdate: 'afterkeydown'
             var val = parseInt(value, 10);
             this.quantity(val / this.unitPrice());
         },
-        owner: viewModel
+        owner: viewModel,
+        /**
+         * If the Element is removed from the DOM
+         * So dispose the computed Observable
+         */
+        disposeWhenNodeIsRemoved: document.querySelector("h1"),
+        /**
+         * IF true: Evaluate only if the computed until the computed get accessed
+         * e.g. the related DOM Node / Resource is not available
+         */
+        deferEvaluation: true
     });
 
     ko.applyBindings(viewModel);

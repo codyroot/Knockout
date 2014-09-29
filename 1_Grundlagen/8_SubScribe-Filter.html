@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout SubScribe</title>
+</head>
+<body>
+<h1>Knockout SubScribe - Listen for Changes</h1>
+
+<input type="text" data-bind="value: filter"/>
+
+<ul data-bind="foreach: array">
+    <li data-bind="text: $data"></li>
+</ul>
+
+<h2>Matches</h2>
+<ul data-bind="foreach: matches">
+    <li data-bind="text: $data"></li>
+</ul>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+
+    /**
+     *
+     * @type {{value: KnockoutObservable<T>, old: KnockoutObservable<T>}}
+     */
+    var viewModel = {
+        array: ko.observableArray([
+                "Anne",
+                "Biance",
+                "Elisa",
+                "Jasmin",
+                "Jolene",
+                "Melina",
+                "Yvy"
+        ]),
+        matches: ko.observableArray([]),
+        filter: ko.observable("Names?")
+    };
+
+    viewModel.filter.subscribe(function (changes) {
+        viewModel.matches.removeAll();
+
+        viewModel.array().filter(function (value, index, array) {
+            console.log(changes.indexOf(value));
+
+            if (changes === value) {
+                viewModel.matches.push(value);
+            }
+        });
+    });
+
+    ko.applyBindings(viewModel);
+
+</script>
+
+</body>
+</html>

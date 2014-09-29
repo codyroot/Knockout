@@ -79,6 +79,10 @@
                 read: function () {
                     return en ? toJSON(context, null, 2) : '';
                 },
+                /**
+                 * If the Element is removed from the DOM
+                 * So dispose the computed Observable
+                 */
                 disposeWhenNodeIsRemoved: element
             });
 

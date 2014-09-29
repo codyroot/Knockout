@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Performance</title>
+</head>
+<body>
+<h1>Knockout Performance</h1>
+
+<ul data-bind="foreach: array">
+    <li>
+        <span data-bind="text: $data"></span>
+        <button data-bind="click: $parent.getName">HTML Binding</button>
+        <button>JS Binding</button>
+
+    </li>
+
+</ul>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var viewModel = {
+        array: ko.observableArray([
+            "BMW",
+            "Lexus",
+            "Trabbi"
+        ]),
+        getName: function (vm) {
+            alert(vm);
+        }
+    };
+
+    var ul = document.querySelector("ul");
+
+    ul.addEventListener("click", function (evt) {
+        if(evt.target.innerText === "JS Binding") {
+            //viewModel.getName(ko.dataFor(evt.target));
+            viewModel.getName(ko.contextFor(evt.target).$data);
+        }
+    });
+
+
+
+    ko.applyBindings(viewModel);
+
+</script>
+
+</body>
+</html>

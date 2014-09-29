@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Unobstrusive JavaScript</title>
+    <style>
+        .red {
+            color: tomato;
+        }
+    </style>
+</head>
+<body>
+<h1>Knockoutjs 2 Unobstrusive JavaScript</h1>
+
+<ul id="unobstrusive">
+    <li></li>
+</ul>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var ul = document.querySelector("#unobstrusive"),
+        li = ul.querySelector("li");
+
+    var viewModel = {
+        array: ko.observableArray([
+            {name: "Joe"},
+            {name: "Bob"}
+        ])
+    };
+
+    //li.dataset.bind = "text: name";
+
+    ko.applyBindingsToNode(ul, {
+        foreach: viewModel.array
+    }, viewModel);
+
+</script>
+
+
+</body>
+</html>
