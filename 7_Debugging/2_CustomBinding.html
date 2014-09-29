@@ -26,6 +26,7 @@
 </section>
 
 <code data-bind="dump: people, indent: 4, enable: true"></code>
+<code data-bind="dump: $root, indent: 4, enable: true"></code>
 
 <script type="text/javascript" src="../lib/knockout.js"></script>
 
@@ -38,9 +39,9 @@
         var replacerFunction = replacer || cycleReplacer;
         var output = ko.utils.stringifyJson(plainJavaScriptObject, replacerFunction, spacer || 2);
         cache = null; // Enable garbage collection
-        return output;
 
         function cycleReplacer(key, value) {
+            // Filter data, in this case data from the breeze lib will be ignored
             if (['entityAspect', 'entityType', '_$typeName'].indexOf(key) !== -1) {
                 return;
             }
@@ -52,6 +53,8 @@
             }
             return value;
         }
+
+        return output;
     };
 
     ko.bindingHandlers.dump = {
@@ -110,6 +113,7 @@
     var p2a = new Person("Mira", "Bond");
 
     p2.child = ko.observable(p2a);
+    p2a.child = ko.observable(p2);
 
     var vm = {
         people: ko.observableArray([p1, p2])
