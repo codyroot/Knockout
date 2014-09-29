@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Debugging</title>
+    <style type="text/css">
+        pre {
+            padding: 10px;
+            border: 1px solid #ddd;
+            background: lightyellow;
+        }
+    </style>
+
+</head>
+<body>
+<h1>Knockout Debugging with a Custom Binding</h1>
+
+<section>
+    How many People?: <strong data-bind="text: people().length"></strong>
+    <ul data-bind="foreach: people">
+        <li>
+            <span data-bind="text: firstName"></span>
+            <span data-bind="text: lastName"></span>
+        </li>
+    </ul>
+</section>
+
+<code data-bind="dump: people, indent: 4, enable: true"></code>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+
+<!-- js file -->
+<script type="text/javascript">
+
+    var toJSON = function (rootObject, replacer, spacer) {
+        var cache = [];
+        var plainJavaScriptObject = ko.toJS(rootObject);
+        var replacerFunction = replacer || cycleReplacer;
+        var output = ko.utils.stringifyJson(plainJavaScriptObject, replacerFunction, spacer || 2);
+        cache = null; // Enable garbage collection
+        return output;
+
+        function cycleReplacer(key, value) {
+            if (['entityAspect', 'entityType', '_$typeName'].indexOf(key) !== -1) {
+                return;
+            }
+            if (typeof value === 'object' && value !== null) {
+                if (cache.indexOf(value) !== -1) {
+                    return;  // Circular reference found, discard key
+                }
+                cache.push(value);
+            }
+            return value;
+        }
+    };
+
+    ko.bindingHandlers.dump = {
+
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+
+            var
+                context = valueAccessor(),
+                allBindings = allBindingsAccessor(),
+                pre = document.createElement("pre"),
+                indent = allBindings.indent || 2,
+                en = allBindings.enable === undefined || allBindings.enable;
+
+            element.appendChild(pre);
+
+            /**
+             * The disposeWhenNodeIsRemoved option ensures that this computed observable
+             * will be destroyed if Knockout removes our element, like in a templating scenario
+             * @type {KnockoutComputed<T>}
+             */
+            var dumpJSON = ko.computed({
+                read: function () {
+                    return en ? toJSON(context, null, 2) : '';
+                },
+                disposeWhenNodeIsRemoved: element
+            });
+
+            /**
+             * Apply the Binding to a specific Node
+             */
+            ko.applyBindingsToNode(pre, {
+                text: dumpJSON,
+                visible: dumpJSON
+            });
+
+            // // Also tell KO *not* to bind the descendants itself, otherwise they will be bound twice
+            return { controlsDescendentBindings: true };
+        }
+    };
+
+</script>
+
+<!-- js file -->
+<script type="text/javascript">
+
+    var Person = function (first, last) {
+        this.firstName = first;
+        this.lastName = last;
+
+        this.child = {};
+        this.pets = {};
+    };
+
+    var p1 = new Person("Bud", "Spencer");
+    var p2 = new Person("James", "Bond");
+    var p2a = new Person("Mira", "Bond");
+
+    p2.child = ko.observable(p2a);
+
+    var vm = {
+        people: ko.observableArray([p1, p2])
+    };
+
+    ko.applyBindings(vm);
+
+</script>
+
+</body>
+</html>

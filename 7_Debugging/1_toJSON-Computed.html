@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Debugging</title>
+    <style type="text/css">
+        pre {
+            padding: 10px;
+            border: 1px solid #ddd;
+            background: lightyellow;
+        }
+    </style>
+
+</head>
+<body>
+<h1>Knockout Debugging with ko.computed() & ko.toJSON() using a pre Element</h1>
+
+<section>
+    How many People?: <strong data-bind="text: people().length"></strong>
+    <ul data-bind="foreach: people">
+        <li>
+            <span data-bind="text: firstName"></span>
+            <span data-bind="text: lastName"></span>
+        </li>
+    </ul>
+</section>
+
+<pre data-bind="text: bindingInfo"></pre>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+
+    var Person = function (first, last) {
+        this.firstName = first;
+        this.lastName = last;
+
+        this.child = {};
+        this.pets = {};
+    };
+
+    var p1 = new Person("Bud", "Spencer");
+    var p2 = new Person("James", "Bond");
+    var p2a = new Person("Mira", "Bond");
+
+    p2.child = ko.observable(p2a);
+
+    var vm = {
+        people: ko.observableArray([p1, p2])
+    };
+
+    // Debug with ko.computed() & ko.toJSON()
+    vm.bindingInfo = ko.computed(function () {
+        return ko.toJSON(vm.people, null, 2);
+    }, this);
+
+    ko.applyBindings(vm);
+
+</script>
+
+</body>
+</html>
