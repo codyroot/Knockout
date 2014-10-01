@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Observable</title>
+</head>
+<body>
+<h1>Knockoutjs 2 Way Extend Builit In Functions</h1>
+
+<input type="text" data-bind="value: value"/>
+
+<h3 data-bind="text: value"></h3>
+<h4>
+    <span>Changed:</span><span data-bind="text: value.countChanges"></span>
+</h4>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    /**
+     * Extend ko.observable with a Simple Counter
+     */
+    ko.observable.fn.logChanges = function () {
+        this.countChanges = ko.observable(0);
+        this.subscribe(function () {
+            this.countChanges(this.countChanges() + 1);
+        }, this);
+        return this;
+    };
+
+    /**
+     *
+     * @type {{value: KnockoutObservable<T>}}
+     */
+    var viewModel = {
+        value: ko.observable("Blubb").logChanges()
+    };
+
+    ko.applyBindings(viewModel);
+
+</script>
+
+</body>
+</html>

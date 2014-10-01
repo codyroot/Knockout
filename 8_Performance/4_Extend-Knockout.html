@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Performance</title>
+</head>
+<body>
+<h1>Knockout Performance Notifications</h1>
+
+<h2>If any observable is <strong>changed</strong>, a notification will be fired</h2>
+
+<div data-bind="text: people.countNotifications"></div>
+
+<button data-bind="click: addPeople">Standard</button>
+<button data-bind="click: addPeoplePerf">Optimized</button>
+
+<div>
+    <ul data-bind="foreach: people">
+        <li>
+            <input data-bind="value: firstName" type=""/>
+            <input data-bind="value: lastName" type=""/>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    /**
+     * Extend Knockouts Observable Array
+     * Show how many changes occur
+     * @returns {ko.observableArray.fn}
+     */
+    ko.observableArray.fn.trackNotifications = function () {
+        this.countNotifications = ko.observable(0);
+        this.subscribe(function () {
+            this.countNotifications(this.countNotifications() + 1);
+        }, this);
+        return this;
+    };
+
+    var Person = function (first, last) {
+        this.firstName = first;
+        this.lastName = last;
+    };
+
+    var data = [
+        {first: "Bud", last: "Spencer"},
+        {first: "James", last: "Bond"},
+        {first: "Luke", last: "Skywalker"},
+        {first: "Darth", last: "Vader"},
+        {first: "Barney", last: "Stinson"},
+        {first: "Terrence", last: "Hill"}
+    ];
+
+    for (var i = 0; i < 100; i++) {
+        data.push({first: "Name" + i, last: "Name" + i});
+    }
+
+    var addPeople = function () {
+
+        console.time("one");
+
+        data.forEach(function (value, index, arry) {
+            viewModel.people.push(new Person(value.first, value.last));
+        });
+
+        console.timeEnd("one");
+    };
+
+    var addPeoplePerf = function () {
+
+        console.time("one");
+
+        // Create a "cached" Array, so there is only one Notification
+        var underArray = viewModel.people();
+
+        data.forEach(function (value, index, arry) {
+            underArray.push(new Person(value.first, value.last));
+        });
+
+        // Tell Knockout that the ObservableArray has changed
+        viewModel.people.valueHasMutated();
+
+        console.timeEnd("one");
+    };
+
+    var viewModel = {
+        people: ko.observableArray([]).trackNotifications(),
+        addPeople: addPeople,
+        addPeoplePerf: addPeoplePerf
+    };
+
+    // Check the Modifications
+    viewModel.people.subscribe(function (changes) {
+        //console.log(changes);
+    });
+
+    ko.applyBindings(viewModel);
+
+</script>
+
+</body>
+</html>

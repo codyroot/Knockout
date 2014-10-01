@@ -30,6 +30,7 @@
     var English = function () {
         German.call(this);
         this.txt_en = ko.observable("This is my text");
+        // If changes needed
         this.txt_de = ko.observable(this.txt_de.call(this)  + "YA");
     };
 

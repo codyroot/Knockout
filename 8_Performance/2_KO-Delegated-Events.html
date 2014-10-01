@@ -5,19 +5,21 @@
     <title>Knockout Performance</title>
 </head>
 <body>
-<h1>Knockout Performance Event Delegation</h1>
+<h1>Knockout Performance Delegated Handler</h1>
+<h2>delegatedHandler: ['click'] --> The Event must match to a data-Attr. A click needs data-click</h2>
 
-<ul data-bind="foreach: array">
+<ul data-bind="foreach: array, delegatedHandler: ['click', 'mouseover']">
+<!--<ul data-bind="foreach: array, delegatedHandler: 'click'">-->
     <li>
         <span data-bind="text: $data"></span>
         <button data-bind="click: $parent.getName">HTML Binding</button>
-        <button>JS Binding</button>
-
+        <button data-click="getName">JS Binding</button>
     </li>
 
 </ul>
 
 <script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript" src="../lib/knockout-delegatedEvents.js"></script>
 <script type="text/javascript">
 
     var viewModel = {
@@ -30,17 +32,6 @@
             alert(vm);
         }
     };
-
-    var ul = document.querySelector("ul");
-
-    ul.addEventListener("click", function (evt) {
-        if(evt.target.innerText === "JS Binding") {
-            //viewModel.getName(ko.dataFor(evt.target));
-            viewModel.getName(ko.contextFor(evt.target).$data);
-        }
-    });
-
-
 
     ko.applyBindings(viewModel);
 
