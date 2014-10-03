@@ -1,0 +1,29 @@
+<div class="col-xs-offset-1 col-xs-10">
+
+    <div data-bind="visible: selected.found === true">
+
+        <div class="row">
+            <button data-bind="css: {hidden: !selected.hasPrevious}, click: previous"
+                    class="col-xs-4 col-sm-2 col-lg-1 btn btn-default previous">
+                Previous
+            </button>
+
+            <button data-bind="css: {hidden: !selected.hasNext}, click: next"
+                    class="col-xs-4 col-sm-2 col-lg-1 btn btn-default next">
+                Next
+            </button>
+        </div>
+
+        <div class="row status">
+            <h2 class="selectedName" data-bind="text: selected.name"></h2>
+        </div>
+
+        <!-- Child Router-->
+        <div class="row" data-bind="router: {transition: 'entrance'}"></div>
+
+        <div data-bind="visible: selected.found === false">
+            <h2>No Card found</h2>
+        </div>
+
+    </div>
+</div>

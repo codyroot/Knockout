@@ -1,0 +1,14 @@
+<section>
+    <input type="text" data-bind="value: blubb"/>
+    <h1 data-bind="text: blubb"></h1>
+    <ul class="list-inline" data-bind="foreach: catalogNames">
+        <li data-bind="click: $parent.goToCards" class="col-xs-12 col-sm-6 col-md-3">
+            <div class="well">
+                <p class="lead" data-bind="text: $data">
+                    Loading
+                </p>
+            </div>
+        </li>
+    </ul>
+    <div data-bind="compose: 'tpl/footer.html'"></div>
+</section>
