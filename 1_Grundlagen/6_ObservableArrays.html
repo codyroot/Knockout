@@ -29,6 +29,7 @@
         -
         <span data-bind="text: color"></span>
         <button data-bind="click: $parent.removeItem">X</button>
+        <button data-bind="click: $parent.destroyItem">Destroy</button>
     </li>
 </ul>
 
@@ -60,6 +61,7 @@
          * Bind the prototype to this/
          */
         this.removeItem = this.removeItem.bind(this);
+        this.destroyItem = this.destroyItem.bind(this);
     };
 
     /**
@@ -95,7 +97,19 @@
         this.collection.remove(carModel);
     };
 
+    /**
+     * Destroy a Single item
+     * @param carModel
+     */
+    CarCollection.prototype.destroyItem = function (carModel) {
+        this.collection.destroy(carModel);
+    };
+
     var cars = new CarCollection();
+
+    cars.collection.subscribe(function (changes) {
+        console.log(changes);
+    });
 
     ko.applyBindings(cars);
 
