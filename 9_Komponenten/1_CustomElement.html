@@ -7,7 +7,7 @@
 <body>
 <h1>Knockout</h1>
 
-<div id="toggle">asdas
+<div id="toggle">
     <inner-time params="myText: 'Das soll rein'"></inner-time>
     <inner-time params="myText: 'Das soll rein'"></inner-time>
 </div>
@@ -28,11 +28,8 @@
     ViewModel.toggleVisibility = ko.observable(true);
 
     ko.components.register("inner-time", {
-        viewModel: {
-            createViewModel: function (params, componentInfo) {
-                return new ViewModel(params);
-            }
-        },
+        // Knockout creates an Instance of the constructor on its own!
+        viewModel: ViewModel,
         template: document.querySelector("#time").innerHTML
     });
 
