@@ -7,9 +7,42 @@
 <body>
 <h1>Knockout</h1>
 
+<div id="toggle">asdas
+    <inner-time params="myText: 'Das soll rein'"></inner-time>
+    <inner-time params="myText: 'Das soll rein'"></inner-time>
+</div>
+
+<script id="time" type="text/html">
+    <div data-bind="visible: ViewModel.toggleVisibility">
+        <h2 data-bind="text: myText">YPYP</h2>
+    </div>
+</script>
+
 <script type="text/javascript" src="../lib/knockout.js"></script>
 <script type="text/javascript">
 
+    var ViewModel = function (params) {
+        this.myText = ko.observable(params.myText);
+    };
+
+    ViewModel.toggleVisibility = ko.observable(true);
+
+    ko.components.register("inner-time", {
+        viewModel: {
+            createViewModel: function (params, componentInfo) {
+                return new ViewModel(params);
+            }
+        },
+        template: document.querySelector("#time").innerHTML
+    });
+
+    ko.applyBindingsToNode(document.querySelector("#toggle"), {
+        click: function () {
+            ViewModel.toggleVisibility(!ViewModel.toggleVisibility())
+        }
+    }, null);
+
+    ko.applyBindings();
 
 </script>
 

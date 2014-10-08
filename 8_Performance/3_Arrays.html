@@ -10,7 +10,7 @@
 
 <button data-bind="click: addPeople">Standard</button>
 <button data-bind="click: addPeoplePerf">Optimized</button>
-
+<i data-bind="text: arrayLength"></i>
 <div>
     <ul data-bind="foreach: people">
         <li>
@@ -19,6 +19,7 @@
         </li>
     </ul>
 </div>
+
 
 <script type="text/javascript" src="../lib/knockout.js"></script>
 <script type="text/javascript">
@@ -78,6 +79,11 @@
     // Check the Modifications
     viewModel.people.subscribe(function (changes) {
         //console.log(changes);
+    });
+
+    viewModel.arrayLength = ko.computed(function () {
+       console.log("Changed");
+       return viewModel.people().length + " Länge";
     });
 
     ko.applyBindings(viewModel);

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Debugging</title>
+    <style type="text/css">
+        pre {
+            padding: 10px;
+            border: 1px solid #ddd;
+            background: lightyellow;
+        }
+    </style>
+
+</head>
+<body>
+<h1>Knockout Debugging with a Custom Binding</h1>
+
+<section>
+    How many People?: <strong data-bind="text: array().length"></strong>
+    <ul data-bind="foreach: array">
+        <li>
+            <span data-bind="text: $data"></span>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <ul data-bind="foreach: copy">
+        <li>
+            <span data-bind="text: $data"></span>
+        </li>
+    </ul>
+</section>
+
+<button data-bind="click: $root.delete">POP</button>
+
+
+
+<code data-bind="dump: array, indent: 4, enable: true"></code>
+<code data-bind="dump: copy, indent: 4, enable: true"></code>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+
+<!-- js file -->
+<script type="text/javascript">
+
+    ko.bindingHandlers.dump = {
+
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+
+            var
+                context = valueAccessor(),
+                allBindings = allBindingsAccessor(),
+                pre = document.createElement("pre"),
+                indent = allBindings.indent || 2,
+                en = allBindings.enable === undefined || allBindings.enable;
+
+            element.appendChild(pre);
+
+            var dumpJSON = ko.computed({
+                read: function () {
+                    return en ? ko.toJSON(context, null, 2) : '';
+                },
+                disposeWhenNodeIsRemoved: element
+            });
+
+            ko.applyBindingsToNode(pre, {
+                text: dumpJSON,
+                visible: dumpJSON
+            });
+
+            return { controlsDescendentBindings: true };
+        }
+    };
+
+</script>
+
+<!-- js file -->
+<script type="text/javascript">
+
+    var View = function () {
+        this.array = ko.observableArray(["Blubb","SOSOS","ASD"]);
+        this.copy = this.array.slice();
+        this.copy.push("new");
+    };
+
+    View.prototype.delete = function () {
+        this.array.removeAll();
+    };
+
+    ko.applyBindings(new View());
+
+</script>
+
+</body>
+</html>

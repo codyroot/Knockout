@@ -25,15 +25,20 @@
     var viewModel = {
         array: ko.observableArray([
             {name: "Joe"},
-            {name: "Bob"}
+            {name: "Bob"},
+            {name: "Muhrad"}
         ])
     };
 
-    //li.dataset.bind = "text: name";
+    //
 
-    ko.applyBindingsToNode(ul, {
-        foreach: viewModel.array
-    }, viewModel);
+    ko.applyBindingAccessorsToNode(ul,{
+        foreach: function () {
+            li.dataset.bind = "text: name";
+            return viewModel.array;
+        }
+    });
+
 
 </script>
 
