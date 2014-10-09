@@ -54,7 +54,12 @@
         }, this);
 
         // Bind
-        this.removeItem = this.removeItem.bind(this);
+        //this.removeItem = this.removeItem.bind(this);
+
+        Object.keys(this.constructor.prototype).forEach(function (value) {
+            this[value] = this[value].bind(this);
+        }, this);
+
     };
 
     ViewModel.prototype.removeItem = function (vm) {

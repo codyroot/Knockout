@@ -60,8 +60,29 @@
         /**
          * Bind the prototype to this/
          */
-        this.removeItem = this.removeItem.bind(this);
-        this.destroyItem = this.destroyItem.bind(this);
+//        this.removeItem = this.removeItem.bind(this);
+//        this.destroyItem = this.destroyItem.bind(this);
+
+
+        var proto = this.__proto__;
+        var proto2 = this.constructor.prototype;
+
+        // ES3
+//        for (var proto in this.__proto__) {
+//            this[proto] = this[proto].bind(this);
+//        }
+
+        // ES5 + forLoop
+        for (var i = 0; i < Object.keys(proto2).length; i++) {
+            this[Object.keys(proto2)[i]] = this[Object.keys(proto2)[i]].bind(this);
+        }
+
+        // ES5 forEach
+//        Object.keys(this.__proto__).forEach(function (value, index, array) {
+//            this[value] = this[value].bind(this);
+//        }, this);
+
+
     };
 
     /**
