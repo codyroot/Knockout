@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Custom Bindings</title>
+</head>
+<body>
+<h1>Knockoutjs 2 Binding Handler</h1>
+
+<input type="text" data-bind="myText : YoYo"/>
+<span data-bind="text: YoYo"></span>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var viewModel = {
+        YoYo: ko.observable("Yo")
+    };
+
+    ko.bindingHandlers.myText = {
+        preprocess: function (value, name, addBindingCallback) {
+            console.log("Wert des Bindings:: " + value);
+            console.log("Name des BindingHandlers:: " + name);
+
+            addBindingCallback("valueUpdate", "'afterkeydown'");
+            addBindingCallback("value", value);
+        }
+    };
+
+    ko.applyBindings(viewModel);
+
+</script>
+
+
+</body>
+</html>
