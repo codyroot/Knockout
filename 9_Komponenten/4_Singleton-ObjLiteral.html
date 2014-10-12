@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Custom Elements</title>
+</head>
+<body>
+<h1>Knockout</h1>
+
+<div id="toggle">asdas
+    <my-products params="myText: 'Bier'"></my-products>
+    <my-products params="myText: 'Schnaps'"></my-products>
+</div>
+
+<script id="time" type="text/html">
+    <h1 data-bind="text: myText"></h1>
+    ID: <i data-bind="text: id"></i>
+    <ul data-bind="foreach: products">
+        <li>
+            <span data-bind="text: name"></span>
+            <span data-bind="text: price"></span>
+            <button data-bind="click: $parent.removeItem">X</button>
+        </li>
+    </ul>
+</script>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var data = [
+        {name: "Bier", price: "3"},
+        {name: "Export", price: "5"},
+        {name: "Schwarz", price: "6"}
+    ];
+
+    var id = 0;
+
+    var ViewModel = (function () {
+        var me;
+        var ViewModel = {
+            init: function (params) {
+
+                if (me) return me;
+
+                me = this;
+
+                me.myText = 2;
+                me.products = ko.observableArray([]);
+
+                me.products.subscribe(function (changes) {
+                    console.log(changes);
+                });
+
+                // Create an ID
+                id++;
+                me.id = ko.observable(id);
+                console.log("Instanz mit der ID: " + id);
+
+                // fetch data
+                data.forEach(function (value) {
+                    me.products.push(value);
+                }, me);
+
+                me.removeItem = function (vm) {
+                    me.products.remove(vm);
+                    console.log(me.id());
+                }
+            }
+        };
+        return ViewModel;
+    }());
+
+    var vm = ViewModel;
+
+    ko.components.register("my-products", {
+        viewModel: vm.init,
+
+        template: document.querySelector("#time").innerHTML
+    });
+
+    ko.applyBindings();
+
+</script>
+
+</body>
+</html>
