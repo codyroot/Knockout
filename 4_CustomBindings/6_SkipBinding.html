@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Skip Binding</title>
+</head>
+<body>
+<h1>Knockout Skip Binding</h1>
+
+<div id="toggle" data-bind="GetMeOutOfThisShit: true">
+    <h1 data-bind="text: myText"></h1>
+</div>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var ViewModel = function (params) {
+        this.myText = ko.observable("Blubb");
+    };
+
+    var vm = new ViewModel();
+
+    ko.bindingHandlers.GetMeOutOfThisShit = {
+        init: function() {
+            return { controlsDescendantBindings: true };
+        }
+    };
+
+    // Actually an error because myText is not found
+    ko.applyBindings();
+
+    ko.applyBindings({
+        myText: "New Binding Value"
+    }, document.querySelector("#toggle h1"));
+
+</script>
+
+</body>
+</html>
