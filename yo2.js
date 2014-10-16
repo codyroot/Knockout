@@ -1,5 +1,12 @@
 var Klass = function () {
     this._private = "my prop";
+
+
+
+};
+
+Klass.prototype.gogo = function(){
+
 };
 
 Object.defineProperty(Klass.prototype, "private", {
@@ -12,8 +19,9 @@ Object.defineProperty(Klass.prototype, "private", {
 });
 
 Object.defineProperty(Klass.prototype, "yo", {
-    value: "YO",
-    writable: false
+    value: function(){
+        return "YO"
+    }
 });
 
 var k = new Klass();
