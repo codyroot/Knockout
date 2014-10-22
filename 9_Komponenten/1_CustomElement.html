@@ -33,13 +33,18 @@
         template: document.querySelector("#time").innerHTML
     });
 
-    ko.applyBindingsToNode(document.querySelector("#toggle"), {
-        click: function () {
-            ViewModel.toggleVisibility(!ViewModel.toggleVisibility())
-        }
-    }, null);
-
     ko.applyBindings();
+
+    var a = ko.components.defaultLoader.getConfig("inner-time", function(a){
+        return a;
+    });
+
+    ko.components.defaultLoader.loadComponent("inner-time",a(), function(a){
+        console.log(a);
+    });
+
+
+
 
 </script>
 
