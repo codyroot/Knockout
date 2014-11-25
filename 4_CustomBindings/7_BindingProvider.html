@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Binding Provider</title>
+</head>
+<body>
+<h1>Knockout</h1>
+
+<div id="toggle">
+    <inner-time params="myText: 'Das soll rein', number: 0" data-bind="GetMeOutOfThisShit: 0"></inner-time>
+    <inner-time params="myText: 'Das soll rei1212', number: 1"></inner-time>
+</div>
+
+<script id="time" type="text/html">
+    <div data-bind="visible: ViewModel.toggleVisibility">
+        <h2 data-bind="text: myText">YPYP</h2>
+    </div>
+</script>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    ko.bindingProvider.instance.preprocessNode = function (node) {
+        var isZero;
+        if (node.tagName === "INNER-TIME" && node.dataset.bind) {
+            isZero = node.dataset.bind.trim().match(/\w+:\s(.)/)[1];
+            if (!isZero) {
+                ko.removeNode(node);
+            }
+        }
+    };
+
+    var ViewModel = function (params) {
+        this.myText = ko.observable(params.myText);
+    };
+
+    ViewModel.toggleVisibility = ko.observable(true);
+
+    ko.components.register("inner-time", {
+        // Knockout creates an Instance of the constructor on its own!
+        viewModel: {
+            createViewModel: function (params, componentInfo) {
+                console.log(componentInfo);
+                console.log(ko.components.isRegistered("inner-time"));
+                return new ViewModel(params);
+            }
+        },
+        template: document.querySelector("#time").innerHTML
+    });
+
+    ko.applyBindings();
+
+</script>
+
+</body>
+</html>
