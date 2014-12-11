@@ -63,9 +63,11 @@
 //        this.removeItem = this.removeItem.bind(this);
 //        this.destroyItem = this.destroyItem.bind(this);
 
-
+        // get the Methods of the Constructor
         var proto = this.__proto__;
         var proto2 = this.constructor.prototype;
+        var proto3 = Object.getPrototypeOf(this);
+        console.log(proto3);
 
         // ES3
 //        for (var proto in this.__proto__) {
