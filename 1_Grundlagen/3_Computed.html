@@ -29,10 +29,12 @@ Qunatity: <input type="text" data-bind="value: quantity">
      * @type {KnockoutComputed<Number>}
      */
     viewModel.calc = ko.computed(function () {
+        console.log("asd");
         return this.price * this.quantity() * this.mwst;
     }, viewModel);
 
     ko.applyBindings(viewModel);
+    console.log(viewModel.calc())
 
 </script>
 

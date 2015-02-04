@@ -8,8 +8,12 @@
 <h1>Knockout</h1>
 
 <div id="toggle">
-    <inner-time params="myText: 'Das soll rein'"></inner-time>
-    <inner-time params="myText: 'Das soll rein'"></inner-time>
+    <inner-time params="myText: 'Das soll rein', fn: anotherScope"></inner-time>
+    <inner-time params="myText: 'Das soll rein', fn: anotherScope">
+        <div>
+            <h2>Das soll rein</h2>
+        </div>
+    </inner-time>
 </div>
 
 <script id="time" type="text/html">
@@ -21,11 +25,16 @@
 <script type="text/javascript" src="../lib/knockout.js"></script>
 <script type="text/javascript">
 
+    var anotherScope = ko.computed(function(){
+        return "DAS IST GEIL";
+    });
+
     var ViewModel = function (params) {
-        this.myText = ko.observable(params.myText);
+        this.myText = ko.observable(params.fn());
     };
 
     ViewModel.toggleVisibility = ko.observable(true);
+
 
     ko.components.register("inner-time", {
         // Knockout creates an Instance of the constructor on its own!
@@ -33,15 +42,19 @@
         template: document.querySelector("#time").innerHTML
     });
 
-    ko.applyBindings();
-
-    var a = ko.components.defaultLoader.getConfig("inner-time", function(a){
+    ko.components.defaultLoader.getConfig("inner-time", function(a){
+        console.log(a);
         return a;
     });
 
-    ko.components.defaultLoader.loadComponent("inner-time",a(), function(a){
-        console.log(a);
+    if (ko.components.isRegistered("inner-time")) {
+        ko.applyBindings();
+    }
+
+    ko.components.defaultLoader.getConfig("inner-time", function(x){
+        console.log(x)
     });
+
 
 
 
