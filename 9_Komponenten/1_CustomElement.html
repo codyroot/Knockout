@@ -25,6 +25,11 @@
 <script type="text/javascript" src="../lib/knockout.js"></script>
 <script type="text/javascript">
 
+    /**
+     * This will be called with params.fn() from the viewModel
+     *
+     * @type {KnockoutComputed<T>}
+     */
     var anotherScope = ko.computed(function(){
         return "DAS IST GEIL";
     });
@@ -35,29 +40,25 @@
 
     ViewModel.toggleVisibility = ko.observable(true);
 
-
     ko.components.register("inner-time", {
         // Knockout creates an Instance of the constructor on its own!
         viewModel: ViewModel,
         template: document.querySelector("#time").innerHTML
     });
 
-    ko.components.defaultLoader.getConfig("inner-time", function(a){
-        console.log(a);
-        return a;
+    /**
+     * Component Default Loader
+     */
+    ko.components.defaultLoader.getConfig("inner-time", function(config){
+        console.log(config);
     });
 
+    /**
+     * Check if component is registered
+     */
     if (ko.components.isRegistered("inner-time")) {
         ko.applyBindings();
     }
-
-    ko.components.defaultLoader.getConfig("inner-time", function(x){
-        console.log(x)
-    });
-
-
-
-
 
 </script>
 

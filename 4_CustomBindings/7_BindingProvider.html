@@ -23,6 +23,7 @@
 
     ko.bindingProvider.instance.preprocessNode = function (node) {
         var isZero;
+        console.log(node);
         if (node.tagName === "INNER-TIME" && node.dataset.bind) {
             isZero = node.dataset.bind.trim().match(/\w+:\s(.)/)[1];
             if (!isZero) {
@@ -51,8 +52,8 @@
 
     ko.applyBindings();
 
-    ko.cleanNode();
-
+//    ko.cleanNode();
+//
     ko.components.unregister();
 
 </script>
