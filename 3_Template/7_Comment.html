@@ -15,11 +15,16 @@
     <!-- /ko -->
 </ul>
 
+<!-- ko if: test -->
+<p>Blubb</p>
+<!-- /ko -->
+
 <script type="text/javascript" src="../lib/knockout.js"></script>
 <script type="text/javascript">
 
     var viewModel = {
-        array: ko.observableArray(["Eins", "Zwei", "Drei"])
+        array: ko.observableArray(["Eins", "Zwei", "Drei"]),
+        test: ko.observable(true)
     };
 
     ko.applyBindings(viewModel);

@@ -8,8 +8,12 @@
 <h1>Knockout</h1>
 
 <div id="toggle">
-    <inner-time params="myText: 'Das soll rein'"></inner-time>
-    <inner-time params="myText: 'Das soll rein'"></inner-time>
+    <inner-time params="myText: 'Das soll rein', fn: anotherScope", id="test"></inner-time>
+    <inner-time params="myText: 'Das soll rein', fn: anotherScope">
+        <div>
+            <h2>Das soll rein</h2>
+        </div>
+    </inner-time>
 </div>
 
 <script id="time" type="text/html">
@@ -21,8 +25,17 @@
 <script type="text/javascript" src="../lib/knockout.js"></script>
 <script type="text/javascript">
 
+    /**
+     * This will be called with params.fn() from the viewModel
+     *
+     * @type {KnockoutComputed<T>}
+     */
+    var anotherScope = ko.computed(function(){
+        return "DAS IST GEIL";
+    });
+
     var ViewModel = function (params) {
-        this.myText = ko.observable(params.myText);
+        this.myText = ko.observable(params.fn());
     };
 
     ViewModel.toggleVisibility = ko.observable(true);
@@ -33,13 +46,24 @@
         template: document.querySelector("#time").innerHTML
     });
 
-    ko.applyBindingsToNode(document.querySelector("#toggle"), {
-        click: function () {
-            ViewModel.toggleVisibility(!ViewModel.toggleVisibility())
-        }
-    }, null);
+    /**
+     * Component Default Loader
+     */
+    ko.components.defaultLoader.getConfig("inner-time", function(config){
+//        console.log(document.querySelector("#test"));
+    });
 
-    ko.applyBindings();
+    ko.components.get("inner-time", function(config){
+        console.log(document.querySelector("#test"));
+    });
+
+
+    /**
+     * Check if component is registered
+     */
+    if (ko.components.isRegistered("inner-time")) {
+        ko.applyBindings();
+    }
 
 </script>
 

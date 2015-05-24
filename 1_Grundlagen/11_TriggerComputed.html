@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Trigger Computed</title>
+</head>
+<body>
+<h1>Trigger Computed</h1>
+
+<div data-bind="text: curDate"></div>
+<input type="button" data-bind="click: recalcCurDate" value="Mutated"></input>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var vm = function () {
+
+        /**
+         * Dummy Observable
+         * @type {KnockoutObservable<T>}
+         */
+        this.dummy = ko.observable();
+
+        this.curDate = ko.computed(function () {
+            /**
+             * Just call (actually a getter) it, to watch for changes
+             * In this computed you can do other stuff ...
+             */
+            this.dummy();
+            return new Date();
+        }, this);
+
+        this.recalcCurDate = function () {
+            // trigger manually a change in the observable dummy
+            this.dummy.notifySubscribers();
+        };
+    };
+
+    ko.applyBindings(new vm());
+
+</script>
+
+</body>
+</html>

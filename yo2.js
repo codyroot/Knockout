@@ -1,20 +1,33 @@
-var Klass = function () {
-    this._private = "my prop";
-};
-
-Object.defineProperty(Klass.prototype, "private", {
-    get: function () {
-        return this._private;
+var Klass = Object.create(Object.prototype, {
+    init: {
+        value: function(msg)  {
+            var self = Object.create(this);
+            self.msg = msg;
+            return self;
+        }
     },
-    set: function (value) {
-        this._private = value;
+    getMsg: {
+        value: function() {
+            return this.msg;
+        }
     }
 });
 
-Object.defineProperty(Klass.prototype, "yo", {
-    value: "YO",
-    writable: false
+var k = Klass.init("asd");
+
+var SubKlass = Object.create(Klass, {
+    init: {
+        value: function(msg, asd){
+            var self = Klass.init.call(this, msg);
+            self.asd = asd;
+            return self;
+        }
+    },
+    getAsd: {
+        value: function(){
+            return this.asd;
+        }
+    }
 });
 
-var k = new Klass();
-
+var s = SubKlass.init("cool", "hoho");

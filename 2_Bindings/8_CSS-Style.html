@@ -7,6 +7,10 @@
         .headline {
             color: palegreen;
         }
+
+        .color {
+            color: blueviolet;
+        }
     </style>
 </head>
 <body>
@@ -19,6 +23,11 @@
 
 <i>CSS (Set a Class)</i>
 <div data-bind="css: {headline: cssClass}">
+    CSS
+</div>
+
+<i>CSS (Set a Class) II</i>
+<div data-bind="css: {color: [1,2,3].length < 10}">
     CSS
 </div>
 

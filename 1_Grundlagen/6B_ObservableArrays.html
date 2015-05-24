@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Observable Arrays</title>
+    <style type="text/css">
+        li {
+            margin: 30px 0;
+            background: #ebebeb;
+            padding: 10px;
+            border: 1px solid #cdcdcd;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Observable Arrays</h1>
+
+<ul data-bind="foreach: collection">
+    <li>
+        <textarea data-bind="value: text, event: { change: $parent.changMeBitch }"></textarea>
+        <p data-bind="text: para"></p>
+    </li>
+</ul>
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var TextCombo = function (txt) {
+        this.text = ko.observable(txt);
+        this.para = ko.observable();
+        this.text.subscribe(function (changes) {
+            this.para(changes);
+        }, this);
+    };
+
+    var TextCollection = function () {
+        this.collection = ko.observableArray();
+        this.collection.subscribe(function (changes) {
+            changes.forEach(function (value) {
+                if (!value.text()) {
+                    value.para(changes[0].text());
+                } else {
+                    value.para(value.text());
+                }
+            });
+        });
+        var proto = this.constructor.prototype;
+        Object.keys(proto).forEach(function (value, index, array) {
+            this[value] = this[value].bind(this);
+        }, this);
+    };
+
+    TextCollection.prototype.add = function (brand) {
+        this.collection.push(new TextCombo(brand));
+    };
+
+    TextCollection.prototype.changMeBitch = function (item) {
+        this.collection.valueHasMutated();
+    };
+
+    var text = new TextCollection();
+
+    ko.applyBindings(text);
+
+    text.add("Das ist geil!");
+    text.add("");
+
+
+</script>
+
+</body>
+</html>

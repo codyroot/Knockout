@@ -3,6 +3,14 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Knockout Custom Elements</title>
+    <style>
+        ul {
+            height: 100px;
+            overflow: auto;
+            border: 1px solid;
+            width: 400px;
+        }
+    </style>
 </head>
 <body>
 <h1>Knockout</h1>
@@ -15,7 +23,7 @@
 <script id="time" type="text/html">
     <h1 data-bind="text: myText"></h1>
     ID: <i data-bind="text: id"></i>
-    <ul data-bind="foreach: products">
+    <ul data-bind="foreach: products, scrollTo: dummy">
         <li>
             <span data-bind="text: name"></span>
             <span data-bind="text: price"></span>
@@ -27,10 +35,24 @@
 <script type="text/javascript" src="../lib/knockout.js"></script>
 <script type="text/javascript">
 
+    /**
+     * Dummy Data
+     */
     var data = [
         {name: "Bier", price: "3"},
         {name: "Export", price: "5"},
-        {name: "Schwarz", price: "6"}
+        {name: "Schwarz", price: "6"},
+        {name: "Hell", price: "2"},
+        {name: "Keller", price: "4"},
+        {name: "Ale", price: "6"},
+        {name: "Lager", price: "9"},
+        {name: "Frucht", price: "8"},
+        {name: "Bier", price: "3"},
+        {name: "Export", price: "5"},
+        {name: "Schwarz", price: "6"},
+        {name: "Hell", price: "2"},
+        {name: "Keller", price: "4"},
+        {name: "Würzig", price: "1"}
     ];
 
     // Singleton Pattern with Closure
@@ -43,10 +65,18 @@
 
             me = this;
 
+            /**
+             * Dummy observable for faking a manually triggering
+             * @type {KnockoutObservable<T>}
+             */
+            me.dummy = ko.observable();
+
             me.myText = params.myText;
             me.products = ko.observableArray([]);
 
             me.products.subscribe(function (changes) {
+                // trigger a change if a new item is added or removed
+                me.dummy.notifySubscribers();
                 console.log(changes);
             });
 
@@ -72,9 +102,22 @@
         return ViewModel;
     }());
 
+
+    /**
+     * Custom Binding in a Component
+     * @type {{update: Function}}
+     */
+    ko.bindingHandlers.scrollTo = {
+        update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+            var value = ko.utils.unwrapObservable(valueAccessor());
+            console.log(value);
+            console.log(element);
+            element.scrollTop = element.scrollHeight;
+        }
+    };
+
     ko.components.register("my-products", {
         viewModel: ViewModel,
-
         template: document.querySelector("#time").innerHTML
     });
 

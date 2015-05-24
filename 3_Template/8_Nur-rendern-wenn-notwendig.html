@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Knockout Template</title>
+</head>
+<body>
+<h1>Rendere HTML nur wenn die Observable true ist</h1>
+
+
+<!-- ko if: renderTrue -->
+<p>Das wird angezeigt</p>
+<!-- /ko -->
+
+<!-- ko if: renderFalse -->
+<p>Das wird nicht ins DOM geschrieben</p>
+<!-- /ko -->
+
+
+<script type="text/javascript" src="../lib/knockout.js"></script>
+<script type="text/javascript">
+
+    var viewModel = {
+        renderTrue: ko.observable(true),
+        renderFalse: ko.observable(false)
+    };
+
+    ko.applyBindings(viewModel);
+</script>
+
+
+</body>
+</html>

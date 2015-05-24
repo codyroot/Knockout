@@ -17,6 +17,8 @@
 
 <h3 data-bind="text: value"></h3>
 
+<p data-bind="visible: value().length">Blubb</p>
+
 <script type="text/javascript" src="../lib/knockout.js"></script>
 <script type="text/javascript">
 
@@ -26,13 +28,16 @@
      * @type {{value: KnockoutObservable<String>, id: KnockoutObservable<Number>, txt: {en: string, de: string}}}
      */
     var viewModel = {
-        value: ko.observable("Blubb"),
+        value: ko.observable({}),
         id: ko.observable(1),
         txt: {
             en: "Hello World",
             de: "Hallo Welt"
         }
     };
+
+    // Length lässt sich nur auslesen,wenn in das observable etwas übergeben wird, was eine länge besitzt  --> String und Array
+    console.log(viewModel.value().length);
 
     ko.applyBindings(viewModel);
 

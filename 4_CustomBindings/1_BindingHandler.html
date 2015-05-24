@@ -20,7 +20,7 @@
 
     ko.bindingHandlers.fadeOut = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-
+            debugger;
             /**
              * allBindingsAccessor returns the other bindings on the element
              */
@@ -49,7 +49,7 @@
             if (display() <= 0) {
                 clearInterval(ani);
             }
-
+            console.log(ani);
             console.log(display());
         }
     };
