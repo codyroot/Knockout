@@ -13,6 +13,11 @@ Object.defineProperty(Klass.prototype, "define", {
 });
 
 Object.defineProperties(Klass.prototype, {
+var Klass = function () {
+    this.prop = "my prop";
+};
+
+Klass = Object.defineProperties(Klass.prototype, {
     "getterSetter1": {
         get: function () {
         },
